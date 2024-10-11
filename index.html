@@ -20,9 +20,11 @@
             font-size: 26px;
             color: #ffffff;
         }
-        #continueButton, #redeemButton {
-            display: none;
+        .button-container {
             margin-top: 20px;
+        }
+        .button-container button {
+            display: none;
             padding: 15px 30px;
             font-size: 18px;
             background-color: #005bb5;
@@ -31,8 +33,9 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin-right: 10px; /* Espacio entre botones */
         }
-        #continueButton:hover, #redeemButton:hover {
+        .button-container button:hover {
             background-color: #007bff;
         }
         #logo {
@@ -49,20 +52,24 @@
     <div class="container">
         <img id="logo" src="https://cdn.theatertoolkit.com/cdn/wwwroot/themes/custom/thelotent/images/logo.png?v=20240904.1" alt="Logo">
         
-        <p id="loadingMessage">We are loading booking details...</p>
-        <button id="continueButton" onclick="fetchBalance()">Check Booking Details</button>
-            <button id="redeemButton" onclick="redeemBalance()">Refund Transaction</button>
+        <p id="loadingMessage">We are loading the balance...</p>
+        
+        <!-- Contenedor para los botones -->
+        <div class="button-container">
+            <button id="continueButton" onclick="fetchBalance()">Check Balance</button>
+            <button id="redeemButton" onclick="redeemBalance()">Refund Transacion</button>
             <button id="refreshButton" onclick="refreshPage()">Refresh</button>
+        </div>
     </div>
 
     <div id="balanceDisplay" style="display:none;"></div>
 
     <script>
-        // Mostrar el botón de continuar después de 3 segundos
+        // Mostrar el botón de continuar después de 5 segundos
         setTimeout(function() {
             document.getElementById("loadingMessage").style.display = "none";
             document.getElementById("continueButton").style.display = "block";
-        }, 3000);
+        }, 5000);
 
         // Función para obtener los datos del Google Sheets
         function fetchBalance() {
@@ -88,14 +95,14 @@
                 .catch(error => console.error('Error fetching balance:', error));
         }
 
-                // Función para redirigir a otra URL cuando se haga clic en "Redeem Balance"
+        // Función para redirigir a otra URL cuando se haga clic en "Redeem Balance"
         function redeemBalance() {
             window.location.href = 'https://qkstzdro6ry.typeform.com/to/bSJ8YkcX';
         }
 
-        // Función para refrescar la páginaa
+        // Función para refrescar la página
         function refreshPage() {
-            window.location.href = 'https://qkstzdro6ry.typeform.com/to/MIf1SW2o';
+            window.location.href = 'https://qkstzdro6ry.typeform.com/to/bSJ8YkcX';
         }
     </script>
 </body>
