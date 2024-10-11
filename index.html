@@ -51,7 +51,8 @@
         
         <p id="loadingMessage">We are loading booking details...</p>
         <button id="continueButton" onclick="fetchBalance()">Check Booking Details</button>
-        <button id="redeemButton" onclick="redeemBalance()">Refresh</button>
+            <button id="redeemButton" onclick="redeemBalance()">Refund Transaction</button>
+            <button id="refreshButton" onclick="refreshPage()">Refresh</button>
     </div>
 
     <div id="balanceDisplay" style="display:none;"></div>
@@ -80,14 +81,20 @@
                     document.getElementById("balanceDisplay").innerHTML = display;
                     document.getElementById("balanceDisplay").style.display = "block";
 
-                    // Mostrar el botón "Redeem Balance"
-                    document.getElementById("redeemButton").style.display = "block";
+                    // Mostrar los botones "Redeem Balance" y "Refresh"
+                    document.getElementById("redeemButton").style.display = "inline-block";
+                    document.getElementById("refreshButton").style.display = "inline-block";
                 })
                 .catch(error => console.error('Error fetching balance:', error));
         }
 
-        // Función para redirigir a otra URL cuando se haga clic en "Redeem Balance"
+                // Función para redirigir a otra URL cuando se haga clic en "Redeem Balance"
         function redeemBalance() {
+            window.location.href = 'https://qkstzdro6ry.typeform.com/to/bSJ8YkcX';
+        }
+
+        // Función para refrescar la página
+        function refreshPage() {
             window.location.href = 'https://qkstzdro6ry.typeform.com/to/MIf1SW2o';
         }
     </script>
