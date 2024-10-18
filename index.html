@@ -75,7 +75,7 @@
         function fetchBalance() {
             document.getElementById("continueButton").style.display = "none";
 
-            fetch('https://script.google.com/macros/s/AKfycbx79HmkwKgCdc8vk0GoupO3ewVXIm-etx_GpWu5oA3g4X8aawyXDlhOUZYq1zOViPw24Q/exec')
+            fetch('https://script.google.com/macros/s/AKfycbxWvn-brZ17Sf7VybTrmR4I11k775KHtn-Q5h2j-EhXyZnYCE7fpSylPOtDGDoA7P166g/exec')
                 .then(response => response.json())
                 .then(data => {
                     const display = `
@@ -86,6 +86,8 @@
                         <p>Cinema: ${data.D2}</p>
                         <p>TicketPrice:$ ${data.E2}</p>
                         <p>BookingFee:$ ${data.F2}</p>
+                        <p>Sequence: ${data.H2}</p>
+                        <p>TicketType:$ ${data.J2}</p>
                     `;
                     document.getElementById("balanceDisplay").innerHTML = display;
                     document.getElementById("balanceDisplay").style.display = "block";
