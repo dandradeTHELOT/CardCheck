@@ -77,7 +77,7 @@
         function fetchBalance() {
             document.getElementById("continueButton").style.display = "none";
 
-            fetch('https://script.google.com/macros/s/AKfycbxWvn-brZ17Sf7VybTrmR4I11k775KHtn-Q5h2j-EhXyZnYCE7fpSylPOtDGDoA7P166g/exec')
+            fetch('https://script.google.com/macros/s/AKfycbyCTf4vsO3FTvl8MLp6fMDlqtUvR6yyKKnfMBzVd4E2Y3-qvYUlS2xo2oKH9Kfeuu_s/exec')
                 .then(response => response.json())
                 .then(data => {
                     const display = `
@@ -90,6 +90,7 @@
                         <p>BookingFee:$ ${data.F2}</p>
                         <p>Sequence: ${data.H2}</p>
                         <p>TicketType: ${data.J2}</p>
+                        <p>TicketPrice:$ ${data.L2}</p>
                     `;
                     document.getElementById("balanceDisplay").innerHTML = display;
                     document.getElementById("balanceDisplay").style.display = "block";
