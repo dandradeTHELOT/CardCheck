@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Information</title>
+    <title>Card Check</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,9 +20,11 @@
             font-size: 26px;
             color: #ffffff;
         }
-        #setRefundButton, #refreshButton {
-            display: none;
+        .button-container {
             margin-top: 20px;
+        }
+        .button-container button {
+            display: none;
             padding: 15px 30px;
             font-size: 18px;
             background-color: #005bb5;
@@ -31,15 +33,16 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin-right: 10px; /* Espacio entre botones */
         }
-        #setRefundButton:hover, #refreshButton:hover {
+        .button-container button:hover {
             background-color: #007bff;
         }
         #logo {
             width: 150px;
             margin-bottom: 20px;
         }
-        #bookingInfo, #refundDetails {
+        #balanceDisplay {
             margin-top: 20px;
             font-size: 22px;
         }
@@ -48,63 +51,65 @@
 <body>
     <div class="container">
         <img id="logo" src="https://cdn.theatertoolkit.com/cdn/wwwroot/themes/custom/thelotent/images/logo.png?v=20240904.1" alt="Logo">
+        
         <p id="loadingMessage">We are loading the booking details...</p>
+        
+        <!-- Contenedor para los botones -->
+        <div class="button-container">
+            <button id="continueButton" onclick="fetchBalance()">Check BookingID Details</button>
+            <button id="redeemButton" onclick="redeemBalance()">Refund Transaction</button>
+            <button id="refreshButton" style="display:none;" onclick="finalRefresh()">Refresh Page</button>
+        </div>
     </div>
 
-    <div id="bookingInfo" style="display:none;"></div>
-
-    <button id="setRefundButton" onclick="fetchRefundDetails()">Get Refund Details</button>
-    <button id="refreshButton" onclick="refreshPage()">Refresh</button>
-
-    <div id="refundDetails" style="display:none;"></div>
+    <div id="balanceDisplay" style="display:none;"></div>
 
     <script>
-        // Mostrar los datos de la reserva desde Google Sheets
-        function fetchBookingInfo() {
-            fetch('https://script.google.com/macros/s/AKfycbxWgZSgXYBh-av_blZ_20Mv3fzwrnPreKGpLcz3eavP5NgeW2JXeQ4Kyrw4zulelj3P/exec') // URL de Google Apps Script para la información de reserva
+        // Mostrar el botón de continuar después de 5 segundos
+        setTimeout(function() {
+            document.getElementById("loadingMessage").style.display = "none";
+            document.getElementById("continueButton").style.display = "block";
+        }, 5000);
+
+        // Función para obtener los datos del Google Sheets
+        function fetchBalance() {
+            document.getElementById("continueButton").style.display = "none";
+
+            fetch('https://script.google.com/macros/s/AKfycbx79HmkwKgCdc8vk0GoupO3ewVXIm-etx_GpWu5oA3g4X8aawyXDlhOUZYq1zOViPw24Q/exec')
                 .then(response => response.json())
                 .then(data => {
-                    const bookingDetails = `
-                        <p><strong>${data.headers.BookingID}:</strong> ${data.values.BookingID}</p>
-                        <p><strong>${data.headers.Cinema}:</strong> ${data.values.Cinema}</p>
-                        <p><strong>${data.headers.TransNumber}:</strong> ${data.values.TransNumber}</p>
-                        <p><strong>${data.headers.Date}:</strong> ${data.values.Date}</p>
+                    const display = `
+
+                        <p>BookingID: ${data.A2}</p>
+                        <p>MaskedCreditCardNumber: ${data.B2}</p>
+                        <p>CardType: ${data.C2}</p>
+                        <p>Cinema: ${data.D2}</p>
+                        <p>TicketPrice:$ ${data.E2}</p>
+                        <p>BookingFee:$ ${data.F2}</p>
                     `;
-                    document.getElementById("bookingInfo").innerHTML = bookingDetails;
-                    document.getElementById("bookingInfo").style.display = "block";
-                    document.getElementById("loadingMessage").style.display = "none";
+                    document.getElementById("balanceDisplay").innerHTML = display;
+                    document.getElementById("balanceDisplay").style.display = "block";
 
-                    // Mostrar el botón "Obtener Detalles de Reembolso"
-                    document.getElementById("setRefundButton").style.display = "block";
+                    // Mostrar los botones "Refund Transaction" y "Refresh"
+                    document.getElementById("redeemButton").style.display = "inline-block";
                 })
-                .catch(error => console.error('Error al obtener la información de la reserva:', error));
+                .catch(error => console.error('Error fetching balance:', error));
         }
 
-        // Mostrar los detalles de reembolso desde otra hoja de Google Sheets
-        function fetchRefundDetails() {
-            fetch('https://script.google.com/macros/s/AKfycbzzGlX5UQlSfIWFEtEvS1KY6EQkrT_gRqOnNoVRFWXjJetxIMySCvXXJrtI5ZctY_b_/exec') // URL de Google Apps Script para los detalles de reembolso
-                .then(response => response.json())
-                .then(data => {
-                    const refundDetails = `
-                        <p><strong>${data.headers.RefundDetails}:</strong> ${data.values.RefundDetails}</p>
-                        <p><strong>${data.headers.Date}:</strong> ${data.values.Date}</p>
-                    `;
-                    document.getElementById("refundDetails").innerHTML = refundDetails;
-                    document.getElementById("refundDetails").style.display = "block";
-                    
-                    // Mostrar el botón "Refresh" una vez cargados los detalles de reembolso
-                    document.getElementById("refreshButton").style.display = "block";
-                })
-                .catch(error => console.error('Error al obtener los detalles de reembolso:', error));
+        // Función para redirigir a otra URL cuando se haga clic en "Refund Transaction"
+        function redeemBalance() {
+            window.location.href = 'https://qkstzdro6ry.typeform.com/to/bSJ8YkcX';
+
+            // Mostrar el botón de refresh después de la redirección
+            setTimeout(function() {
+                document.getElementById("refreshButton").style.display = "inline-block";
+            }, 1000); // Después de 1 segundo (puedes ajustar el tiempo)
         }
 
-        // Función para redirigir a otra página
-        function refreshPage() {
-            window.location.href = 'https://qkstzdro6ry.typeform.com/to/MIf1SW2o'; // Cambia esta URL a la que desees
+        // Función para refrescar la página o redirigir
+        function finalRefresh() {
+            window.location.href = 'https://otra-pagina.com'; // Cambia esta URL a la que deseas redirigir
         }
-
-        // Ejecutar la función cuando cargue la página
-        window.onload = fetchBookingInfo;
     </script>
 </body>
 </html>
