@@ -56,8 +56,10 @@
         
         <!-- Contenedor para los botones -->
         <div class="button-container">
+            <!-- Nuevo botón para "Refund Parcial Transaction" -->
+            <button id="partialRefundButton" onclick="partialRefundBalance()">Refund Parcial Transaction</button>
             <button id="continueButton" onclick="fetchBalance()">Check BookingID Details</button>
-            <button id="redeemButton" onclick="redeemBalance()">Refund Transacion</button>
+            <button id="redeemButton" onclick="redeemBalance()">Refund Transaction</button>
             <button id="refreshButton" onclick="refreshPage()">Refresh</button>
         </div>
     </div>
@@ -92,14 +94,20 @@
                     document.getElementById("balanceDisplay").innerHTML = display;
                     document.getElementById("balanceDisplay").style.display = "block";
 
-                    // Mostrar los botones "Redeem Balance" y "Refresh"
+                    // Mostrar los botones "Redeem Balance", "Partial Refund", y "Refresh"
+                    document.getElementById("partialRefundButton").style.display = "inline-block";
                     document.getElementById("redeemButton").style.display = "inline-block";
                     document.getElementById("refreshButton").style.display = "inline-block";
                 })
                 .catch(error => console.error('Error fetching balance:', error));
         }
 
-        // Función para redirigir a otra URL cuando se haga clic en "Redeem Balance"
+        // Función para redirigir a la URL de "Refund Parcial Transaction"
+        function partialRefundBalance() {
+            window.location.href = 'https://qkstzdro6ry.typeform.com/to/X7fORec0';
+        }
+
+        // Función para redirigir a la URL de "Refund Transaction"
         function redeemBalance() {
             window.location.href = 'https://qkstzdro6ry.typeform.com/to/bSJ8YkcX';
         }
