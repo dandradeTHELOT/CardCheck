@@ -57,8 +57,8 @@
         <!-- Contenedor para los botones -->
         <div class="button-container">
             <button id="continueButton" onclick="fetchBalance()">Check BookingID Details</button>
-            <button id="redeemButton" onclick="redeemBalance()">Refund Transacion</button>
-            <button id="refreshButton" onclick="refreshPage()">Refresh</button>
+            <button id="redeemButton" onclick="redeemBalance()">Refund Transaction</button>
+            <button id="refreshButton" style="display:none;" onclick="finalRefresh()">Refresh Page</button>
         </div>
     </div>
 
@@ -90,21 +90,25 @@
                     document.getElementById("balanceDisplay").innerHTML = display;
                     document.getElementById("balanceDisplay").style.display = "block";
 
-                    // Mostrar los botones "Redeem Balance" y "Refresh"
+                    // Mostrar los botones "Refund Transaction" y "Refresh"
                     document.getElementById("redeemButton").style.display = "inline-block";
-                    document.getElementById("refreshButton").style.display = "inline-block";
                 })
                 .catch(error => console.error('Error fetching balance:', error));
         }
 
-        // Función para redirigir a otra URL cuando se haga clic en "Redeem Balance"
+        // Función para redirigir a otra URL cuando se haga clic en "Refund Transaction"
         function redeemBalance() {
             window.location.href = 'https://qkstzdro6ry.typeform.com/to/bSJ8YkcX';
+
+            // Mostrar el botón de refresh después de la redirección
+            setTimeout(function() {
+                document.getElementById("refreshButton").style.display = "inline-block";
+            }, 1000); // Después de 1 segundo (puedes ajustar el tiempo)
         }
 
-        // Función para refrescar la página
-        function refreshPage() {
-            window.location.href = 'https://qkstzdro6ry.typeform.com/to/MIf1SW2o';
+        // Función para refrescar la página o redirigir
+        function finalRefresh() {
+            window.location.href = 'https://qkstzdro6ry.typeform.com/to/MIf1SW2o'; // Cambia esta URL a la que deseas redirigir
         }
     </script>
 </body>
