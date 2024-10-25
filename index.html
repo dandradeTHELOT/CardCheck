@@ -7,44 +7,60 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #003a7e;
+            background-color: #121212; /* Fondo oscuro */
             color: #ffffff;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             text-align: center;
         }
         .container {
-            margin-top: 15%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
         }
         #loadingMessage {
-            font-size: 26px;
-            color: #ffffff;
+            font-size: 18px;
+            color: #aaaaaa;
+            margin-bottom: 20px;
+            animation: fadein 2s ease-in-out;
         }
         .button-container {
             margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
         .button-container button {
-            display: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #005bb5;
-            color: #ffffff;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #fbb03b;
+            color: #1a1a1a;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            margin-right: 10px; /* Espacio entre botones */
         }
         .button-container button:hover {
-            background-color: #007bff;
+            background-color: #ffcf70;
         }
         #logo {
-            width: 150px;
-            margin-bottom: 20px;
+            width: 120px;
+            margin-bottom: 15px;
         }
         #balanceDisplay {
             margin-top: 20px;
-            font-size: 22px;
+            font-size: 18px;
+        }
+        /* Animación */
+        @keyframes fadein {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
@@ -52,15 +68,13 @@
     <div class="container">
         <img id="logo" src="https://cdn.theatertoolkit.com/cdn/wwwroot/themes/custom/thelotent/images/logo.png?v=20240904.1" alt="Logo">
         
-        <p id="loadingMessage">We are loading the booking details...</p>
+        <p id="loadingMessage">Loading booking details...</p>
         
-        <!-- Contenedor para los botones -->
         <div class="button-container">
-            <!-- Nuevo botón para "Refund Parcial Transaction" -->
-            <button id="partialRefundButton" onclick="partialRefundBalance()">Refund Partial Transaction</button>
+            <button id="partialRefundButton" onclick="partialRefundBalance()" style="display:none;">Refund Partial Transaction</button>
             <button id="continueButton" onclick="fetchBalance()">Check BookingID Details</button>
-            <button id="redeemButton" onclick="redeemBalance()">Refund Transaction</button>
-            <button id="refreshButton" onclick="refreshPage()">Refresh</button>
+            <button id="redeemButton" onclick="redeemBalance()" style="display:none;">Refund Transaction</button>
+            <button id="refreshButton" onclick="refreshPage()" style="display:none;">Refresh</button>
         </div>
     </div>
 
@@ -73,7 +87,7 @@
             document.getElementById("continueButton").style.display = "block";
         }, 5000);
 
-        // Función para obtener los datos del Google Sheets
+        // Función para obtener los datos
         function fetchBalance() {
             document.getElementById("continueButton").style.display = "none";
 
@@ -81,7 +95,6 @@
                 .then(response => response.json())
                 .then(data => {
                     const display = `
-
                         <p>BookingID: ${data.A2}</p>
                         <p>MaskedCreditCardNumber: ${data.B2}</p>
                         <p>CardType: ${data.C2}</p>
@@ -95,25 +108,21 @@
                     document.getElementById("balanceDisplay").innerHTML = display;
                     document.getElementById("balanceDisplay").style.display = "block";
 
-                    // Mostrar los botones "Redeem Balance", "Partial Refund", y "Refresh"
-                    document.getElementById("partialRefundButton").style.display = "inline-block";
-                    document.getElementById("redeemButton").style.display = "inline-block";
-                    document.getElementById("refreshButton").style.display = "inline-block";
+                    document.getElementById("partialRefundButton").style.display = "block";
+                    document.getElementById("redeemButton").style.display = "block";
+                    document.getElementById("refreshButton").style.display = "block";
                 })
                 .catch(error => console.error('Error fetching balance:', error));
         }
 
-        // Función para redirigir a la URL de "Refund Parcial Transaction"
         function partialRefundBalance() {
             window.location.href = 'https://qkstzdro6ry.typeform.com/to/X7fORec0';
         }
 
-        // Función para redirigir a la URL de "Refund Transaction"
         function redeemBalance() {
             window.location.href = 'https://qkstzdro6ry.typeform.com/to/bSJ8YkcX';
         }
 
-        // Función para refrescar la página
         function refreshPage() {
             window.location.href = 'https://qkstzdro6ry.typeform.com/to/MIf1SW2o';
         }
