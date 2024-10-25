@@ -30,6 +30,8 @@
         }
         .button-container {
             margin-top: 20px;
+            display: flex;
+            flex-direction: column; /* Cambiado a columna para apilar botones verticalmente */
         }
         .button-container button {
             display: none;
@@ -41,7 +43,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            margin-right: 10px;
+            margin-bottom: 10px; /* Espaciado entre botones */
         }
         .button-container button:hover {
             background-color: #1AABFF;
