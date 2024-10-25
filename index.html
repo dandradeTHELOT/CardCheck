@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #121212; /* Fondo oscuro */
+            background-color: #003a7e;
             color: #ffffff;
             margin: 0;
             padding: 0;
@@ -20,47 +20,55 @@
         .container {
             max-width: 400px;
             padding: 20px;
-            background-color: #1a1a1a;
+            background-color: #003a7e;
             border-radius: 8px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
         }
         #loadingMessage {
             font-size: 18px;
-            color: #aaaaaa;
+            color: #ffffff;
             margin-bottom: 20px;
-            animation: fadein 2s ease-in-out;
         }
         .button-container {
             margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
         }
         .button-container button {
-            padding: 10px;
+            display: none;
+            padding: 12px 24px;
             font-size: 16px;
-            background-color: #fbb03b;
-            color: #1a1a1a;
+            background-color: #0A92FF;
+            color: #ffffff;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin-right: 10px;
         }
         .button-container button:hover {
-            background-color: #ffcf70;
+            background-color: #1AABFF;
         }
         #logo {
-            width: 120px;
-            margin-bottom: 15px;
+            width: 150px;
+            margin-bottom: 20px;
         }
         #balanceDisplay {
             margin-top: 20px;
-            font-size: 18px;
+            display: none;
         }
-        /* Animación */
-        @keyframes fadein {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ffffff;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #0A92FF;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -68,17 +76,18 @@
     <div class="container">
         <img id="logo" src="https://cdn.theatertoolkit.com/cdn/wwwroot/themes/custom/thelotent/images/logo.png?v=20240904.1" alt="Logo">
         
-        <p id="loadingMessage">Loading booking details...</p>
+        <p id="loadingMessage">We are loading the booking details...</p>
         
+        <!-- Contenedor para los botones -->
         <div class="button-container">
-            <button id="partialRefundButton" onclick="partialRefundBalance()" style="display:none;">Refund Partial Transaction</button>
+            <button id="partialRefundButton" onclick="partialRefundBalance()">Refund Partial Transaction</button>
             <button id="continueButton" onclick="fetchBalance()">Check BookingID Details</button>
-            <button id="redeemButton" onclick="redeemBalance()" style="display:none;">Refund Transaction</button>
-            <button id="refreshButton" onclick="refreshPage()" style="display:none;">Refresh</button>
+            <button id="redeemButton" onclick="redeemBalance()">Refund Transaction</button>
+            <button id="refreshButton" onclick="refreshPage()">Refresh</button>
         </div>
     </div>
 
-    <div id="balanceDisplay" style="display:none;"></div>
+    <div id="balanceDisplay"></div>
 
     <script>
         // Mostrar el botón de continuar después de 5 segundos
@@ -87,7 +96,7 @@
             document.getElementById("continueButton").style.display = "block";
         }, 5000);
 
-        // Función para obtener los datos
+        // Función para obtener los datos del Google Sheets
         function fetchBalance() {
             document.getElementById("continueButton").style.display = "none";
 
@@ -95,22 +104,25 @@
                 .then(response => response.json())
                 .then(data => {
                     const display = `
-                        <p>BookingID: ${data.A2}</p>
-                        <p>MaskedCreditCardNumber: ${data.B2}</p>
-                        <p>CardType: ${data.C2}</p>
-                        <p>Cinema: ${data.D2}</p>
-                        <p>TicketPrice:$ ${data.E2}</p>
-                        <p>BookingFee:$ ${data.F2}</p>
-                        <p>Sequence: ${data.H2}</p>
-                        <p>TicketType: ${data.J2}</p>
-                        <p>TicketPrice:$ ${data.L2}</p>
+                        <table>
+                            <tr><th>BookingID</th><td>${data.A2}</td></tr>
+                            <tr><th>MaskedCreditCardNumber</th><td>${data.B2}</td></tr>
+                            <tr><th>CardType</th><td>${data.C2}</td></tr>
+                            <tr><th>Cinema</th><td>${data.D2}</td></tr>
+                            <tr><th>TicketPrice</th><td>$ ${data.E2}</td></tr>
+                            <tr><th>BookingFee</th><td>$ ${data.F2}</td></tr>
+                            <tr><th>Sequence</th><td>${data.H2}</td></tr>
+                            <tr><th>TicketType</th><td>${data.J2}</td></tr>
+                            <tr><th>TicketPrice</th><td>$ ${data.L2}</td></tr>
+                        </table>
                     `;
                     document.getElementById("balanceDisplay").innerHTML = display;
                     document.getElementById("balanceDisplay").style.display = "block";
 
-                    document.getElementById("partialRefundButton").style.display = "block";
-                    document.getElementById("redeemButton").style.display = "block";
-                    document.getElementById("refreshButton").style.display = "block";
+                    // Mostrar los botones "Redeem Balance", "Partial Refund", y "Refresh"
+                    document.getElementById("partialRefundButton").style.display = "inline-block";
+                    document.getElementById("redeemButton").style.display = "inline-block";
+                    document.getElementById("refreshButton").style.display = "inline-block";
                 })
                 .catch(error => console.error('Error fetching balance:', error));
         }
